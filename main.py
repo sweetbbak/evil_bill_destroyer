@@ -1,7 +1,6 @@
 import time
 import random
 from selenium import webdriver
-import chromedriver_binary
 
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
