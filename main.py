@@ -5,17 +5,18 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from faker import Faker
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--disable-dev-shm-usage')
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 
 fake = Faker()
 
+a = 0
 y = 1
 while y == y:
 
-    driver = webdriver.Chrome('chromedriver', chrome_options=chrome_options)
+    driver = webdriver.Chrome('chromedriver', options=options)
     driver.get("https://townhall.virginia.gov/L/entercomment.cfm?GdocForumID=1953")
 
     names = fake.name()
@@ -27,6 +28,7 @@ while y == y:
     elem.clear()
     elem.send_keys(names)
 
+    ## a table full of subjects to choose randomly
     boob = ['Leave trans kids alone', 'I oppose this bill', 'This bill is garbage', 'Quit using kids as political tools. I oppose this bill!', 'I strongly oppose this bill', 'You cant legislate trans people away',
         'Trans Rights are human rights', 'Please reconsider pushing this bill', 'Oppose Gov Youngkins Transgender and Anti-CRT Policies', 'Trans rights matter', 'Trans people are real!! Do we have to say this?', 'Trans Liberation now', 'GOP hate on full display',
         'DNC hate on full display! Parental right ARE human rights & LGBTQIA isn’t under attack here! Read!!!', 'I strongly disagree with this policy. Trans rights ARE human rights and we will not be silenced.', 'Persecuting Trans Kids is a shameful political stunt'
@@ -35,19 +37,20 @@ while y == y:
 
 
     time.sleep(.5)
-
+    ## choose a random state with the arrow keys
     states = random.randint(0, 48)
     addComment = driver.find_element('xpath', '/html/body/div[5]/div[6]/form/div[1]/div[1]/div[2]/select')
     addComment.send_keys(Keys.ARROW_DOWN * states)
-
+    ## pick a fake email with Faker (very easy thanks to Faker)
     mails = fake.email()
     email = driver.find_element('xpath', '/html/body/div[5]/div[6]/form/div[1]/div[2]/input')
     email.send_keys(mails)
-
+    ## random subject and send that to the box
     subjects = random.choice(boob)
     comment = driver.find_element('xpath', '/html/body/div[5]/div[6]/form/div[1]/div[3]/input')
     comment.send_keys(subjects)
 
+    ## body of the message
     bodyx = ["The consequences of not affirming a child’s gender identity can be severe, and it can interfere with their ability to develop and maintain healthy interpersonal relationships. In the school context, that distress will also hinder a transgender student’s focus in class and ability to learn. The longer a transgender youth is not affirmed, the more significant and long-lasting the negative consequences can become, including loss of interest in school, heightened risk for alcohol and drug use, poor mental health and suicide. -Gender Spectrum et al., 2015, Schools in Transition—A Guide for Supporting Transgender Students in K-12 Schools 8 (2015)", 
     "When transgender students are denied access to facilities that align with their gender identity, they often avoid participating in sports, gym and refrain from using the bathroom altogether. Bathroom avoidance is a common problem for transgender students and is linked to medical problems and diminished educational outcomes. For instance, in a 2013 study conducted by the Williams Institute, 54 percent of transgender respondents reported some sort of health problem related to bathroom avoidance, including dehydration, urinary tract infections, kidney infections and other kidney problems.", "Students will not be the only ones harmed by the proposed guidance. Too often educators are required to enforce needlessly discriminatory policies by those who lack direct contact or relationships with the students and parents harmed by such policies. Policies that segregate transgender students their peers are not self-executing: they compel individual administrators, educators, and other public school employees to carry them out. Educators suffer both professional and psychological harms when they are forced to watch, and participate in, the stigmatization and degradation that discriminatory policies inflict on children.",
     "It has been shown that allowing students to use restrooms and locker rooms consistent with their gender identity is just one of a host of school policies that have been shown to improve the educational experiences of transgender, gender nonconforming, and cisgender students. In schools with policies that explicitly prohibit anti-LGBTQ bullying, students have better relationships with staff and as a result feel safer in the school. When transgender students are respected, they are able to engage fully and equitably with the educational experience, and when that happens, transgender students, like all students, are able to thrive", "School policies that respect transgender students not only benefit transgender students, but also promote a positive school climate for all students. School climate—that is, the “product of the interpersonal relationships among students, families, teachers, support staff and administrators” that sets the “norms, values, and expectations that support people feeling socially, emotionally, and physically safe” in school—is a key predictor of student engagement, student mental and physical health, and academic achievement, and is positively correlated with decreased absenteeism, dropout rates, and suspensions",
@@ -59,30 +62,26 @@ while y == y:
 
     imageOne = driver.find_element('xpath', '/html/body/div[5]/div[6]/form/div[4]/div[2]/table/tbody/tr/td[1]/img[1]')
     imageTwo = driver.find_element('xpath', '/html/body/div[5]/div[6]/form/div[4]/div[2]/table/tbody/tr/td[1]/img[2]')
-    #username = driver.find_element(By.NAME, 'username')
-    print(imageOne.get_attribute("outerHTML"))
-    print(imageTwo.get_attribute("outerHTML"))
+    ## Get the captcha, check outer html for the letter name in the gif file name
 
     imgString = imageOne.get_attribute("outerHTML")
     img2String = imageTwo.get_attribute("outerHTML")
 
-    #<img src="../graphics/letters/LetterI.gif" style="vertical-align: middle" border="0" alt="letter">
-    #this might be  stupid for me but these dummies also made a captcha and put the letters in the html. Notice "LetterI.gif" lmao
-    #fight stupidity with stupidity
-
-    captcha = imgString.split("""<img src="../graphics/letters/Letter""")
-    print(captcha)
+    ## <img src="../graphics/letters/LetterI.gif" style="vertical-align: middle" border="0" alt="letter">
+    ## this might be  stupid for me but these dummies also made a captcha and put the letters in the html. Notice "LetterI.gif" lmao
+    ## fight stupidity with stupidity
 
     find_letter = imgString[36]
     find_letter2 = img2String[36]
     cappy = (find_letter + find_letter2)
 
-    print(cappy)
+    print("Captcha: ", cappy)
 
     capbox = driver.find_element('xpath', '/html/body/div[5]/div[6]/form/div[4]/div[2]/table/tbody/tr/td[2]/input')
     capbox.send_keys(cappy)
 
+    a = a + 1
     submit = driver.find_element('xpath', '//*[@id="submit"]')
     submit.submit()
-    print("SUBMITTED A FORM")
+    print("SUBMITTED ", a, "FORMS")
     driver.close()
