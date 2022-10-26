@@ -5,9 +5,14 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from faker import Faker
 
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-dev-shm-usage')
+
 fake = Faker()
 
-driver = webdriver.Chrome(executable_path=r'C:/Users/User/chromedriver_win32/chromedriver.exe')
+driver = webdriver.Chrome('chromedriver', chrome_options=chrome_options)
 driver.get("https://townhall.virginia.gov/L/entercomment.cfm?GdocForumID=1953")
 
 names = fake.name()
