@@ -22,7 +22,6 @@ while y == y:
 
     names = fake.name()
 
-
     ## check if its the right page by looking at the title and add a name
     assert "Virginia Regulatory Town Hall Enter A Comment" in driver.title
     elem = driver.find_element(By.NAME, "UUName")
@@ -30,7 +29,7 @@ while y == y:
     elem.send_keys(names)
 
     ## a table full of subjects to choose randomly
-    boob = ['Leave trans kids alone', 'I oppose this bill', 'This bill is garbage', 'Quit using kids as political tools. I oppose this bill!', 'I strongly oppose this bill', 'You cant legislate trans people away',
+    boob = ['Leave trans kids alone', 'this bill is ridiculous', 'a ridiculous waste of taxpayer dollars', 'say NO to this awful bill', 'Glen Youngkin should be ashamed', 'Im in Gen Z and I am sick of boomers using us for political points', 'this bill is horrific', 'I oppose this bill', 'This bill is garbage', 'Quit using kids as political tools. I oppose this bill!', 'I strongly oppose this bill', 'You cant legislate trans people away',
         'Trans Rights are human rights', 'Please reconsider pushing this bill', 'Oppose Gov Youngkins Transgender and Anti-CRT Policies', 'Trans rights matter', 'Trans people are real!! Do we have to say this?', 'Trans Liberation now', 'GOP hate on full display',
         'DNC hate on full display! Parental right ARE human rights & LGBTQIA isn’t under attack here! Read!!!', 'I strongly disagree with this policy. Trans rights ARE human rights and we will not be silenced.', 'Persecuting Trans Kids is a shameful political stunt'
         'Trans rights!!', 'THESE POLICIES WILL KILL KIDS !!!', 'STRONGLY OPPOSE - This will harm children', 'I STRONGLY OPPOSE This Policy', 'Oppose! This bill is insanity and will harm trans youth!', 'You’re going to get kids killed doing this', 'Trans kids are awesome and deserve the same respect we all want',
@@ -85,4 +84,7 @@ while y == y:
     submit = driver.find_element('xpath', '//*[@id="submit"]')
     submit.submit()
     print("SUBMITTED ", a, "FORMS")
+    print("name: ", names, "email: ", mails, "subject line: ", subjects)
     driver.close()
+
+print("thank you for your contribution <3")
