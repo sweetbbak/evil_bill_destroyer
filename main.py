@@ -17,6 +17,7 @@ y = 1
 while y == y:
 
     driver = webdriver.Chrome('chromedriver', options=options)
+    #driver = webdriver.Chrome(executable_path=r'C:/Users/User/chromedriver_win32/chromedriver.exe', options=options)
     driver.get("https://townhall.virginia.gov/L/entercomment.cfm?GdocForumID=1953")
 
     names = fake.name()
@@ -42,7 +43,7 @@ while y == y:
     addComment = driver.find_element('xpath', '/html/body/div[5]/div[6]/form/div[1]/div[1]/div[2]/select')
     addComment.send_keys(Keys.ARROW_DOWN * states)
     ## pick a fake email with Faker (very easy thanks to Faker)
-    mails = fake.email()
+    mails = fake.free_email()
     email = driver.find_element('xpath', '/html/body/div[5]/div[6]/form/div[1]/div[2]/input')
     email.send_keys(mails)
     ## random subject and send that to the box
